@@ -1,2 +1,3 @@
 com\prizy\pricer\PricerApplicationTests.class
 com\prizy\pricer\repositories\ProductRepositoryTest.class
+com\prizy\pricer\controllers\ViewControllerTest.class

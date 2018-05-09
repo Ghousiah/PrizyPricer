@@ -11,21 +11,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.repository.config.RepositoryConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.prizy.pricer.models.Product;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = { RepositoryConfiguration.class })
+@SpringBootTest(classes = { ProductRepository.class })
 public class ProductRepositoryTest {
 
-	private ProductRepository productRepository;
-
 	@Autowired
-	public void setProductRepository(ProductRepository productRepository) {
-		this.productRepository = productRepository;
-	}
+	private ProductRepository productRepository;
 
 	@Test
 	public void testSaveProduct() {
@@ -44,11 +39,11 @@ public class ProductRepositoryTest {
 
 		// verify id value after save
 		assertNull(product.getBarcode());
-		productRepository.save(product);
+		this.productRepository.save(product);
 		assertNotNull(product.getBarcode());
 
 		// read from mongodb
-		Optional<Product> fetchedProduct = productRepository.findById(product.getBarcode());
+		Optional<Product> fetchedProduct = this.productRepository.findById(product.getBarcode());
 
 		// check if null or not
 		assertNotNull(fetchedProduct);
@@ -59,18 +54,18 @@ public class ProductRepositoryTest {
 
 		// check update and save
 		fetchedProduct.get().setDescription("New Description");
-		productRepository.save(fetchedProduct.get());
+		this.productRepository.save(fetchedProduct.get());
 
 		// read data from mongodb and update
-		Optional<Product> updateProduct = productRepository.findById(fetchedProduct.get().getBarcode());
+		Optional<Product> updateProduct = this.productRepository.findById(fetchedProduct.get().getBarcode());
 		assertEquals(fetchedProduct.get().getDescription(), updateProduct.get().getDescription());
 
 		// verify count of products in database
-		long productCount = productRepository.count();
+		long productCount = this.productRepository.count();
 		assertEquals(productCount, 1);
 
 		// get all products list and it should contain only one document
-		List<Product> products = productRepository.findAll();
+		List<Product> products = this.productRepository.findAll();
 
 		int count = 0;
 

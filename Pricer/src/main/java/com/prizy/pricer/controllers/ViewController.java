@@ -1,7 +1,5 @@
 package com.prizy.pricer.controllers;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +21,6 @@ import com.prizy.pricer.services.ProductService;
 public class ViewController {
 
 	private ProductService productService;
-	//private ArrayList<Double> priceList = new ArrayList<Double>();
 
 	@Autowired
 	public void setProductService(ProductService productService) {
@@ -64,8 +61,6 @@ public class ViewController {
 		product.setPriceCollectCount(1);
 		this.productService.addProduct(product);
 
-		//priceList.add(price);
-
 		request.setAttribute("products", this.productService.getAllProducts());
 		request.setAttribute("mode", "MODE_TASKS");
 		return "index";
@@ -92,26 +87,33 @@ public class ViewController {
 		if (id != null) {
 			Optional<Product> prod = this.productService.getProductById(id);
 			Product response = prod.isPresent() ? prod.get() : new Product();
-
-			product.setBarcode(id);
-
+			
+			product.setBarcode(id);			
+			double price = response.getPrice();
+			
 			int i = response.getPriceCollectCount();
 			i += 1;
 			product.setPriceCollectCount(i);
 
-//			product.setHighestPrice(Collections.max(priceList));
-//			product.setLowestPrice(Collections.min(priceList));
+			if (price > response.getHighestPrice())
+				product.setHighestPrice(price);
+			else
+				product.setHighestPrice(response.getHighestPrice());
+			if (price < response.getLowestPrice())
+				product.setLowestPrice(price);
+			else
+				product.setLowestPrice(response.getLowestPrice());
 
-//			double sum = 0;
-//			int count = 0;
-//
-//			for (Double d : priceList) {
-//				sum += d;
-//				count += 1;
-//			}
+			double sum = (price + product.getHighestPrice() + product.getLowestPrice());
+			double avg = sum / i;
+			product.setAvgPrice(avg);
 
-//			double avg = sum / count;
-//			product.setAvgPrice(avg);
+			// Ideal price calculation ( total sum - (highest + lowest) + (average price +
+			// 20%))
+			double idealPrice = sum - (product.getHighestPrice() + product.getLowestPrice())
+					+ (product.getAvgPrice() * 0.2);
+
+			product.setIdealPrice(idealPrice);
 
 			this.productService.updateProduct(product);
 			modelAndView.addObject("product", product);

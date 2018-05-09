@@ -1,0 +1,7 @@
+com\prizy\pricer\models\Product.class
+com\prizy\pricer\rest\controllers\ProductController.class
+com\prizy\pricer\controllers\ViewController.class
+com\prizy\pricer\repositories\ProductRepository.class
+com\prizy\pricer\services\ProductServiceImpl.class
+com\prizy\pricer\services\ProductService.class
+com\prizy\pricer\PricerApplication.class

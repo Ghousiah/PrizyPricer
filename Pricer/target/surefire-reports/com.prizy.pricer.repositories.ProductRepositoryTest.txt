@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.prizy.pricer.repositories.ProductRepositoryTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.126 s <<< FAILURE! - in com.prizy.pricer.repositories.ProductRepositoryTest
+testSaveProduct(com.prizy.pricer.repositories.ProductRepositoryTest)  Time elapsed: 0.018 s  <<< ERROR!
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.prizy.pricer.repositories.ProductRepositoryTest': Unsatisfied dependency expressed through method 'setProductRepository' parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.prizy.pricer.repositories.ProductRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.prizy.pricer.repositories.ProductRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+
